@@ -13,7 +13,7 @@ max_iters = 1000
 h, tau = l / N, T / M
 s = np.linspace(0, l, N + 1)
 phi = np.zeros_like(s)
-y_target = np.cos(np.pi * s / l)
+y_target = np.sin(np.pi * s / l)
 
 forward_problem = ForwardProblem(a2, nu, l, T, N, M, phi)
 adjoint_problem = AdjointProblem(a2, nu, l, T, N, M, y_target)

@@ -46,7 +46,9 @@ class TripleDiagMatrix:
 
 
 class PDEProblem(TripleDiagMatrix):
-    def __init__(self, a2: float, nu: float, l: float, T: float, N: int, M: int):
+    def __init__(
+        self, a2: float, nu: float, l: float, T: float, N: int, M: int
+    ) -> None:
         self.a2 = a2
         self.nu = nu
         self.l = l
@@ -76,7 +78,7 @@ class ForwardProblem(PDEProblem):
         M: int,
         phi: NDArray[np.float64],
         p_fixed: float = 0.0,
-    ):
+    ) -> None:
         super().__init__(a2, nu, l, T, N, M)
         self.phi = phi
         self.p_fixed = p_fixed
@@ -106,7 +108,7 @@ class AdjointProblem(PDEProblem):
         N: int,
         M: int,
         y_target: NDArray[np.float64],
-    ):
+    ) -> None:
         super().__init__(a2, nu, l, T, N, M)
         self.y_target = y_target
 

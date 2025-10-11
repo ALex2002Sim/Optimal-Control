@@ -2,12 +2,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy.typing import NDArray
 from typing import Literal, Tuple, List, Dict
+from boundary import ForwardProblem, AdjointProblem
 
 
 class ProjectionGradientSolver:
 
     def __init__(
-        self, forward_problem, adjoint_problem, R: float, phi: NDArray[np.float64]
+        self,
+        forward_problem: ForwardProblem,
+        adjoint_problem: AdjointProblem,
+        R: float,
+        phi: NDArray[np.float64],
     ) -> None:
         self.forward = forward_problem
         self.adjoint = adjoint_problem
