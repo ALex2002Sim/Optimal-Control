@@ -38,9 +38,10 @@ class TripleDiagMatrix:
         lower_diag = np.full(N, -mu)
         upper_diag = np.full(N, -mu)
 
-        main_diag[0], upper_diag[0] = 1.0, -1.0
-        main_diag[-1] = 1.0 + mu * (1.0 + nu * h)
-        lower_diag[-1] = -mu
+        main_diag[0] = 1.0
+        upper_diag[0] = -1.0
+        main_diag[-1] = 1.0 + mu * (1.0 + 0.5 * nu * h)
+        lower_diag[-1] = -mu * (1.0 + 0.5 * nu * h)
 
         return lower_diag, main_diag, upper_diag
 
@@ -59,6 +60,7 @@ class PDEProblem(TripleDiagMatrix):
         self.tau = T / M
         self.s = np.linspace(0, l, N + 1)
         self.t = np.linspace(0, T, M + 1)
+
         self.lower_diag, self.main_diag, self.upper_diag = self._build_diagonals(
             self.N, self.h, self.tau, self.a2, self.nu
         )
@@ -86,13 +88,15 @@ class ForwardProblem(PDEProblem):
     def solve(self, f_mat: NDArray[np.float64]) -> NDArray[np.float64]:
         x = np.zeros((self.N + 1, self.M + 1))
         x[:, 0] = self.phi.copy()
+
         mu = self.a2 * self.tau / (self.h * self.h)
 
         for j in range(self.M):
             b = x[:, j].copy()
             b += self.tau * f_mat[:, j + 1]
             b[0] = 0.0
-            b[self.N] += mu * self.nu * self.h * self.p_fixed
+            b[self.N] += mu * (1.0 + 0.5 * self.nu * self.h) * self.p_fixed
+
             x[:, j + 1] = self._solve(b)
 
         return x
@@ -113,6 +117,7 @@ class AdjointProblem(PDEProblem):
         self.y_target = y_target
 
     def solve(self, x_all: NDArray[np.float64]) -> NDArray[np.float64]:
+
         psi = np.zeros_like(x_all)
         psi[:, self.M] = 2.0 * (x_all[:, self.M] - self.y_target)
 

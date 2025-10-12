@@ -4,16 +4,19 @@ from boundary import ForwardProblem, AdjointProblem
 from PGS import ProjectionGradientSolver
 
 l, T = 2.0, 0.5
-a2, nu = 0.5, 1.0
+a2, nu = 0.1, 1.0
 N, M = 200, 200
 R = 10.0
 
 max_iters = 1000
 
+func = lambda x: np.power(x, 2)
+
 h, tau = l / N, T / M
 s = np.linspace(0, l, N + 1)
 phi = np.zeros_like(s)
-y_target = np.sin(np.pi * s / l)
+y_target = np.cos(np.pi * s / l)
+# y_target = func(s)
 
 forward_problem = ForwardProblem(a2, nu, l, T, N, M, phi)
 adjoint_problem = AdjointProblem(a2, nu, l, T, N, M, y_target)
