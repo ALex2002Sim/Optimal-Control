@@ -10,13 +10,21 @@ R = 10.0
 
 max_iters = 1000
 
-func = lambda x: np.power(x, 2)
+# func = lambda x: np.power(x, 1)
 
 h, tau = l / N, T / M
 s = np.linspace(0, l, N + 1)
 phi = np.zeros_like(s)
-y_target = np.cos(np.pi * s / l)
+# y_target = np.cos(np.pi * s / l)
 # y_target = func(s)
+
+# y_target = np.cos(np.pi * s / l)
+# y_target = np.sin(np.pi * s / l) ** 2
+y_target = np.exp(-0.5 * s) * np.cos(np.pi * s / l)
+# y_target = np.cos(np.pi * s / l)**3
+# y_target = 1 - 2 / (1 + np.exp(-10 * (0.5 - s / l)))
+# y_target = np.tanh(5 * (0.5 - s / l))
+# y_target = 1 - 4 * (s / l - 0.5)**3
 
 forward_problem = ForwardProblem(a2, nu, l, T, N, M, phi)
 adjoint_problem = AdjointProblem(a2, nu, l, T, N, M, y_target)

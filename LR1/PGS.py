@@ -36,7 +36,7 @@ class ProjectionGradientSolver:
         self,
         f_init: NDArray[np.float64],
         max_iters: int = 50,
-        tol: float = 1e-4,
+        tol: float = 1e-3,
         alpha_strategy: Literal["backtracking", "lipschitz_est"] = "backtracking",
         alpha0: float = 1e-2,
     ) -> Tuple[NDArray[np.float64], Dict[str, List[float]]]:
@@ -124,8 +124,11 @@ class ProjectionGradientSolver:
             line_xT.set_data(s, x_all[:, -1])
             ax_temp.relim()
             ax_temp.autoscale_view()
+            # ax_temp.set_title(
+            #     f"Iteration {k} | $J$={J_curr:.3e} | $\\alpha$={alpha_used:.2e} ({alpha_strategy})"
+            # )
             ax_temp.set_title(
-                f"Iteration {k} | $J$={J_curr:.3e} | $\\alpha$={alpha_used:.2e} ({alpha_strategy})"
+                f"Iteration {k} | $J$={J_curr:.3e}"
             )
 
             line_J.set_data(np.arange(1, len(history["J"]) + 1), history["J"])
