@@ -11,7 +11,7 @@ class TripleDiagMatrix:
         upper: NDArray[np.float64],
         b: NDArray[np.float64],
     ) -> NDArray[np.float64]:
-        N = len(main) - 1
+        N = main.size - 1
         cp = np.zeros(N + 1, dtype=np.float64)
         dp = np.zeros(N + 1, dtype=np.float64)
         x = np.zeros(N + 1, dtype=np.float64)

@@ -6,7 +6,6 @@ from boundary import ForwardProblem, AdjointProblem
 
 
 class ProjectionGradientSolver:
-
     def __init__(
         self,
         forward_problem: ForwardProblem,
@@ -127,9 +126,7 @@ class ProjectionGradientSolver:
             # ax_temp.set_title(
             #     f"Iteration {k} | $J$={J_curr:.3e} | $\\alpha$={alpha_used:.2e} ({alpha_strategy})"
             # )
-            ax_temp.set_title(
-                f"Iteration {k} | $J$={J_curr:.3e}"
-            )
+            ax_temp.set_title(f"Iteration {k} | $J$={J_curr:.3e}")
 
             line_J.set_data(np.arange(1, len(history["J"]) + 1), history["J"])
             ax_J.relim()
